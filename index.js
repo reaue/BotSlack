@@ -9,7 +9,6 @@ const app = new App({
   socketMode: true
 });
 
-
 app.command("/botpersonnal-ping", async ({ command, ack, respond }) => {
   const start = Date.now();
   await ack();
