@@ -68,4 +68,4 @@ Following: ${user.following}`
   };
 });
 
-app.command("/botpaersonnal-")
+app.command("/botpersonnal-")
