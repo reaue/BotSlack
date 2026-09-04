@@ -79,24 +79,22 @@ app.command("/botpersonnal-qr", async ({ command, ack, respond }) => {
     return;
   }
 
-  try {
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(data)}`;
 
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `*QR code for:* ${data}`
+    await respond({
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `*QR code for:* ${data}`
+          }
+        },
+        {
+          type: "image",
+          image_url: qrUrl,
+          alt_text: `QR code for ${data}`
         }
-      },
-      {
-        type: "image",
-        image_url: qrUrl,
-        alt_text: `QR code for ${data}`
-      }
-    ];
-  } catch (err) {
-    await respond("Some issues occured with the Qr code API.");
-  }
-});
+      ]
+    });
+}); 
