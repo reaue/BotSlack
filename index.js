@@ -32,7 +32,8 @@ app.command("/botpersonnal-help", async ({ ack, respond }) => {
 `Available Commands:
 /botpersonnal-ping - Check bot latency;
 /botpersonnal-coinflip - Flip a coin;
-/botpersonnal-github USER - Get GitHub information about user.`
+/botpersonnal-github USER - Get GitHub information about user;
+/botpersonnal-qr DATA - Create a Qr code encoding your data.`
   });
 });
 
@@ -64,8 +65,27 @@ Followers: ${user.followers}
 Following: ${user.following}`
     });
   } catch (err) {
-    await respond("GitHub user not found.")
+    await respond("GitHub user not found.");
   };
 });
 
-app.command("/botpersonnal-")
+app.command("/botpersonnal-qr", async ({ command, ack, respond }) => {
+  await ack();
+
+  const data = command.text.trim();
+
+  if (!data) {
+    await respond("Please provide data to put in the Qr code.");
+    return;
+  }
+
+  try {
+    const qrUrl = await axios.get(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(data)}`);
+
+    await respond({
+        text: `Qr code for : ${data}\n${qrUrl}`
+    })
+  } catch (err) {
+    await respond("Some issues occured with the Qr code API.")
+  }
+});
